@@ -20,22 +20,28 @@ class App extends React.Component {
     allOrganisations: [],
     selectedOrgId: null,
     viewEditDialog: false,
-    viewShifts: false
+    viewShifts: false,
+    loginErrors: []
   }
 
   componentDidMount = () => {
     //checks to see if there is a valid token, if so, sets user in state. if not, state shows no user
     API.validateUser()
       .then(resp => {
+        console.log(resp)
+        console.log(resp.user)
+
         if (resp.user) this.setState({
           userLoggedIn: true, 
           currentUser: resp.user, 
           showModal:false,
           selectedOrgId: resp.user.organisation_id ? resp.user.organisation_id : null
         })
+        
       })
     API.getOrgs()
       .then(orgs => {
+        console.log(orgs)
         this.setState({
           allOrganisations: [...orgs],
           // viewShifts: true
@@ -52,12 +58,18 @@ class App extends React.Component {
   }
 
   handleUserLogin = (data) => {
+    if (data.user) {
     this.setState({ 
       userLoggedIn: true,
       currentUser: data.user,
       showModal: false
     })
     this.toggleModal()
+  } else {
+    this.setState({
+      loginErrors: data
+    })
+  }
   }
 
   handleSignUp = (data) => {
@@ -176,8 +188,9 @@ class App extends React.Component {
     const selectedOrg = this.getOrgObj()
   return (
     <div className="App">
+      {!this.state.currentUser ? 
       <Dialog
-              open={!this.state.userLoggedIn}
+              open={!this.state.userLoggedIn && !this.state.currentUser}
               onClose={this.toggleModal}
             >
               {this.state.modalLogin ? 
@@ -191,9 +204,12 @@ class App extends React.Component {
                   handleClick={this.toggleLogin} 
                   toggleModal={this.toggleModal} 
                   handleUserLogin={this.handleUserLogin} 
+                  loginErrors={this.state.loginErrors}
                 />
               }
-      </Dialog>
+      </Dialog>  
+      :
+     <>
       <Dialog
               open={this.state.userLoggedIn && 
                 !this.state.currentUser.organisation_id && 
@@ -243,6 +259,8 @@ class App extends React.Component {
                   logout={this.logout}
               />
       </Dialog>
+     </>
+       }
       
       {this.state.viewShifts ? (
         <ShiftsTable 

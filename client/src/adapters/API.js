@@ -41,7 +41,8 @@ const signUp = (user) => fetch(usersUrl, {
   .catch(handleServerError)
 
 
-const logIn = (user) => fetch(loginUrl, {
+const logIn = (user) => {
+  return fetch(loginUrl, {
   method: 'POST',
   headers: {
       'Content-Type': 'application/json'
@@ -50,13 +51,16 @@ const logIn = (user) => fetch(loginUrl, {
   }).then(jsonify)
   .then(data => {
     if (data.errors) {
-      console.log('errors: ',data.errors)
+      console.log('errors: ', data.errors)
+      return data.errors
+
     } else {
       localStorage.setItem('token', data.token)
       return {user: data.user}
     }
   })
-  .catch(handleServerError)
+  // .catch(handleServerError)
+}
 
 const validateUser = () => {
 

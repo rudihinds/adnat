@@ -51,7 +51,7 @@ function EditPage(props) {
         </div>
         <div style={{flexDirection:"row"}}>
           <label htmlFor='hourlyRate' >Hourly Rate: $</label>
-          <input style={{border: '1px solid grey'}} type='text' id='hourlyRate' name='hourly rate' required={true} value={hourlyRate} onChange={(e) => handleHourlyRate(e.target.value)} />
+          <input style={{border: '1px solid grey'}} type='number' id='hourlyRate' name='hourly rate' required={true} value={hourlyRate} onChange={(e) => handleHourlyRate(e.target.value)} />
         </div>
         <div>
           <Button variant="contained" color="primary" type='submit'>Update</Button>

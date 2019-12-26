@@ -2,6 +2,9 @@ import React from 'react'
 import API from './adapters/API'
 
 class LoginForm extends React.Component {
+  constructor(props){
+    super(props)
+  }
 
   state = {
     user: {
@@ -10,6 +13,12 @@ class LoginForm extends React.Component {
     },
     errors: []
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.loginErrors !== prevProps.loginErrors)
+    this.setState({errors: this.props.loginErrors})
+  }
+  
 
   handleChange = (key, value) => {
     this.setState({user: {...this.state.user, [key]: value}})
@@ -32,6 +41,7 @@ class LoginForm extends React.Component {
       
       API.logIn(this.state.user)
         .then(resp => {
+          console.log(resp)
           if (resp.errors) {
             this.setState({ errors: resp.errors })
           } else {
@@ -46,7 +56,9 @@ class LoginForm extends React.Component {
   }
 
   render() {
-    // console.log(this.props)
+    console.log(this.state.errors)
+    console.log(this.props.loginErrors)
+
     return (
       <div style={{padding: '10px'}}>
         <p>Login to view shifts.</p>
