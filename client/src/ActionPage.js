@@ -10,9 +10,6 @@ function ActionPage(props) {
    props.removeConnections()
   }
   
-  const handleLogout = () => {
-    API.clearToken()
-  }
   
   return (
             <Container>
@@ -21,7 +18,7 @@ function ActionPage(props) {
             {props.selectedOrg ? (
             <h2>{props.selectedOrg.name}
             </h2>):null}
-              <Button onClick={() => props.toggleViewShifts()}>View Shifts</Button>
+              <Button onClick={props.toggleViewShifts}>View Shifts</Button>
               <Button onClick={props.toggleEditDialogOn}>Edit</Button>
               <Button onClick={() => handleLeave(null, props.currentUser.id)}>Leave</Button>
             </Container>

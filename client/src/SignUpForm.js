@@ -28,7 +28,6 @@ class SignUpForm extends React.Component {
       this.setState({ errors })
     } else {
       API.signUp(this.state.user).then(data => {
-        console.log(data)
         if (data.errors) this.setState({errors: data.errors})
         if (data.user) {
 
@@ -47,7 +46,6 @@ class SignUpForm extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div style={{padding: '10px'}}>
       <p>Sign up for an account</p>

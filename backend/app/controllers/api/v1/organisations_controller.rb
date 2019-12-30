@@ -17,7 +17,6 @@ class Api::V1::OrganisationsController < ApplicationController
       render json: { user: @current_user, org: org }
     else
       render json: { errors: user.errors.full_messages }, status: :not_accepted
-      # render errors
     end
   end
 

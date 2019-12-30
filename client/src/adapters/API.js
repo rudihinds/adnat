@@ -65,7 +65,6 @@ const logIn = (user) => {
 const validateUser = () => {
 
   if ((!localStorage.getItem('token')) || (localStorage.getItem('token') === "undefined")) {
-    console.log("apparently no token")
     return Promise.resolve({ error: 'no token'})
   }
 
@@ -74,7 +73,6 @@ const validateUser = () => {
   })
       .then(jsonify)
       .then(data => {
-        console.log(data, "token found")
         if (!DataTransfer.error) localStorage.setItem('token', data.token)
         return data
       })
@@ -103,8 +101,6 @@ const joinOrg = (organisation_id, userId) => {
     headers: constructHeaders({'Content-Type': 'application/json'}),
     body: JSON.stringify({ organisation_id: organisation_id })
   })
-  // .then(res => res.json())
-  // .then(console.log)
 }
 
 const updateOrg = (orgId, name, hourly_rate) => {
@@ -119,7 +115,6 @@ const updateOrg = (orgId, name, hourly_rate) => {
     })
   })
     .then(res => res.json())
-  .then(console.log)
 }
 
 const leaveOrg = (org_id, userId) => {
@@ -129,7 +124,6 @@ const leaveOrg = (org_id, userId) => {
     body: JSON.stringify({ user: { organisation_id: org_id } })
   })
     .then(res => res.json())
-    .then(console.log)
 }
 
 const createOrg = (orgName, hourlyRate) => {

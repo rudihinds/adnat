@@ -41,7 +41,6 @@ class LoginForm extends React.Component {
       
       API.logIn(this.state.user)
         .then(resp => {
-          console.log(resp)
           if (resp.errors) {
             this.setState({ errors: resp.errors })
           } else {
@@ -56,8 +55,6 @@ class LoginForm extends React.Component {
   }
 
   render() {
-    console.log(this.state.errors)
-    console.log(this.props.loginErrors)
 
     return (
       <div style={{padding: '10px'}}>

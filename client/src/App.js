@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import API from './adapters/API'
 import Dialog from '@material-ui/core/Dialog';
@@ -28,8 +28,6 @@ class App extends React.Component {
     //checks to see if there is a valid token, if so, sets user in state. if not, state shows no user
     API.validateUser()
       .then(resp => {
-        console.log(resp)
-        console.log(resp.user)
 
         if (resp.user) this.setState({
           userLoggedIn: true, 
@@ -41,10 +39,8 @@ class App extends React.Component {
       })
     API.getOrgs()
       .then(orgs => {
-        console.log(orgs)
         this.setState({
           allOrganisations: [...orgs],
-          // viewShifts: true
         })
       })
     }
@@ -82,7 +78,6 @@ class App extends React.Component {
   }
 
   setOrganisation = orgId => {
-    console.log(orgId)
     this.setState({
       selectedOrgId: orgId,
       currentUser: {
@@ -126,15 +121,15 @@ class App extends React.Component {
 
   getOrgObj = () => {
     if (this.state.selectedOrgId) {
-      const org = this.state.allOrganisations.filter(org => org.id === this.state.selectedOrgId)
-        return org[0] 
+      const org = this.state.allOrganisations.find(org => org.id === this.state.selectedOrgId)
+        return org ? org : null
       } else {
         return null
       }
   }
 
+
   toggleActionModal = () => {
-    console.log("hello")
     this.setState({
       currentUser: {
         ...this.state.currentUser,
@@ -160,13 +155,8 @@ class App extends React.Component {
 
   updateOrganisation = (orgId, hourly_rate, name) => {
     let newOrg = this.state.allOrganisations.find(org => org.id === orgId)
-      console.log(newOrg)
       newOrg.hourly_rate = hourly_rate
-      newOrg.name = name
-      console.log(newOrg)
-
-    // this.removeOrganisationFromAllOrgsArr(orgId) remove the old one from array before adding new one in next line
-    
+      newOrg.name = name    
   }
 
   removeOrganisationFromAllOrgsArr = (orgId) => {
@@ -184,7 +174,6 @@ class App extends React.Component {
   
 
   render(){
-    console.log(this.state)
     const selectedOrg = this.getOrgObj()
   return (
     <div className="App">

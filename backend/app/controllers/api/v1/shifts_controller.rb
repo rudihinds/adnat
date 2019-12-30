@@ -4,10 +4,6 @@ class Api::V1::ShiftsController < ApplicationController
   skip_before_action :authorize, only: [:index]
   skip_before_action :set_current_user, only: [:index]
 
-  def index
-    org = Organisation.find(3)
-    render json: org.shifts, include: { user: { only: [:name, :email] } }
-  end
 
   def create
     shift_start = params[:shift][:shift_date] + " " + params[:shift][:start_time]
